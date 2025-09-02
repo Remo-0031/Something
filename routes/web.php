@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\chirpUploaded;
+use App\Mail\signUpWelcome;
 use App\Models\Chirp;
 use App\Modules\Chirp\Controller\ChirpController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +17,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('index',compact('chirps'));
     })->name('dashboard');
     Route::post('/chirp',[ChirpController::class,'store'])->name('chirp.store');
+});
+
+Route::get('/text',function(){
+    Mail::to('remoremoremo0031@gmail.com')->send(new signUpWelcome()); 
+    return 'test Sucess';
 });
 
 require __DIR__.'/settings.php';

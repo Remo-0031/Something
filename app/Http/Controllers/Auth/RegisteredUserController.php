@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\signUpWelcome;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -43,7 +45,7 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
+        Mail::to($user->email)->send(new signUpWelcome($user->name));
         Auth::login($user);
 
         return redirect()->intended(route('dashboard', absolute: false));

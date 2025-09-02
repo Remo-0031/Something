@@ -2,6 +2,7 @@ import Chirp from '@/components/chips-listing';
 import { Button } from '@/components/ui/button';
 import { Textarea, Description, Field } from '@headlessui/react';
 import { Form, router, useForm } from '@inertiajs/react';
+import { useEcho, useEchoPublic } from '@laravel/echo-react';
 import { Target, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -9,6 +10,7 @@ import { useEffect, useState } from 'react';
 
 export default function index(prop: any) {
     const [currentText, SetcurrentText] = useState('');
+    const [chirps, Setchirps] = useState(prop.chirps);
     const { setData, post } = useForm({
         text: ''
     });
@@ -18,12 +20,12 @@ export default function index(prop: any) {
     }
     useEffect(() => {
         SetcurrentText('');
-        console.log(prop.chirps);
+        console.log(chirps);
 
         // prop.chirps?.forEach((c: any) => {
         //     console.log(c.Chirp);
         // });
-    }, [prop])
+    }, [chirps])
 
     useEffect(() => {
         // console.log(currentText);
@@ -39,6 +41,14 @@ export default function index(prop: any) {
             }
         });
     }
+
+    useEcho('Chirp','.chirp.uploaded',(e)=>{
+        console.log(e)
+        Setchirps([
+            e.chirp,
+            ...chirps
+        ])
+    }).listen()
 
     return (
         <>
@@ -73,7 +83,7 @@ export default function index(prop: any) {
                                 <Button onClick={handleClick}>Chirp</Button>
                             </div>
                         </div>
-                        <Chirp chirps={prop.chirps} />
+                        <Chirp chirps={chirps} />
                     </div>
                     <div className='bg-blue-800 min-w-[20%] mt-12'></div>
                 </div>
