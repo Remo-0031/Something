@@ -36,6 +36,7 @@ class removeOldChirps extends Command
             Log::info("Found $count chirps older than a day to remove.");
             Log::info('Removing chirps older than: ' . $oneDayAgo->toDateTimeString());
             Log::info("Removed $count old chirps from the database.");
+            //test
         } catch (\Throwable $th) {
             Log::error('Error removing old chirps: ' . $th->getMessage());
             $this->error('An error occurred while removing old chirps. Check the logs for details.');
