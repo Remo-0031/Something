@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Chirp extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'chrips';
 
     protected $fillable = [
